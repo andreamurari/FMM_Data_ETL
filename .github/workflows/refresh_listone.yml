@@ -2,8 +2,8 @@ name: ETL Totale
 
 on:
   workflow_dispatch:        # lancio manuale
-  schedule:                 # lancio automatico
-    - cron: "0 */4 * * *"   # ogni 4 ore
+  # schedule:                 # lancio automatico
+  #  - cron: "0 */4 * * *"   # ogni 4 ore
 
 jobs:
   run-etl:
