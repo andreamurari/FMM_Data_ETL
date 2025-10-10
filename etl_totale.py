@@ -167,10 +167,10 @@ logger.info("✅ Estratto 'Appoggio Listone' da Google.")
 listone_fantacalcio.columns = listone_fantacalcio.iloc[0]
 listone_fantacalcio = listone_fantacalcio[1:]
 
-old_appoggio_listone['priorità'] = 0
-listone_fantacalcio['priorità'] = 1
+old_appoggio_listone['priorita'] = 0
+listone_fantacalcio['priorita'] = 1
 nuovo_appoggio_listone = pd.concat([old_appoggio_listone, listone_fantacalcio])
-nuovo_appoggio_listone.sort_values(by=['priorità'], inplace=True, ascending=False)
+nuovo_appoggio_listone.sort_values(by=['priorita'], inplace=True, ascending=False)
 nuovo_appoggio_listone.drop_duplicates(subset=['Nome'], inplace=True)
 appoggio = nuovo_appoggio_listone
 
@@ -190,7 +190,7 @@ new_test['Costo_y'].replace('', np.nan, inplace=True)
 new_test.loc[:, 'Costo_y'] = new_test['Costo_y'].fillna(0).replace('/', 0)
 
 
-new_test = new_test[['Nome', 'RM', 'Squadra', 'Detentore Cartellino_y', 'Squadra Attuale_y', 'Costo_y', 'Tipo Contratto_y', 'Qt.A M', 'priorità']]
+new_test = new_test[['Nome', 'RM', 'Squadra', 'Detentore Cartellino_y', 'Squadra Attuale_y', 'Costo_y', 'Tipo Contratto_y', 'Qt.A M', 'priorita']]
 new_test = new_test.rename(columns={
     'RM': 'ruolo',
     'Nome': 'nome',
@@ -275,7 +275,7 @@ for _, row in df.iterrows():
         row.get("tipo_contratto"),
         ruoli,
         row.get("costo"),
-        row.get("priorità")  
+        row.get("priorita")  
     )
 )
 conn.commit()
