@@ -189,8 +189,8 @@ new_test.loc[:, ['Detentore Cartellino_y', 'Squadra Attuale_y', 'Tipo Contratto_
 new_test['Costo_y'].replace('', np.nan, inplace=True)
 new_test.loc[:, 'Costo_y'] = new_test['Costo_y'].fillna(0).replace('/', 0)
 
-new_test = new_test[['Nome', 'RM', 'Squadra', 'Detentore Cartellino_y',
-                     'Squadra Attuale_y', 'Costo_y', 'Tipo Contratto_y', 'Qt.A M']]
+
+new_test = new_test[['Nome', 'RM', 'Squadra', 'Detentore Cartellino_y', 'Squadra Attuale_y', 'Costo_y', 'Tipo Contratto_y', 'Qt.A M', 'priorità']]
 new_test = new_test.rename(columns={
     'RM': 'ruolo',
     'Nome': 'nome',
@@ -199,9 +199,9 @@ new_test = new_test.rename(columns={
     'Squadra Attuale_y': 'squadra_att',
     'Costo_y': 'costo',
     'Tipo Contratto_y': 'tipo_contratto',
-    'Qt.A M': 'quot_att_mantra'
+    'Qt.A M': 'quot_att_mantra',
+    "priotità": "priotità"
 })
-
 logger.info("✅ Modifiche implementate nella nuova tabella.")
 
 # ----------------------------
@@ -252,31 +252,32 @@ for _, row in df.iterrows():
         valore = valore.replace("\n", ";")
         ruoli = [v.strip() for v in valore.split(";") if v.strip()]
     cur.execute(
-        """
-        INSERT INTO giocatore (
-            nome,
-            squadra_att,
-            detentore_cartellino,
-            club,
-            quot_att_mantra,
-            tipo_contratto,
-            ruolo,
-            costo
-        )
-        VALUES (%s, %s, %s, %s, %s, %s, %s::ruolo_mantra[], %s);
-        """,
-        (
-            row.get("nome"),
-            row.get("squadra_att"),
-            row.get("detentore_cartellino"),
-            row.get("club"),
-            row.get("quot_att_mantra"),
-            row.get("tipo_contratto"),
-            ruoli,
-            row.get("costo")
-        )
+    """
+    INSERT INTO giocatore (
+        nome,
+        squadra_att,
+        detentore_cartellino,
+        club,
+        quot_att_mantra,
+        tipo_contratto,
+        ruolo,
+        costo,
+        priorita
     )
-
+    VALUES (%s, %s, %s, %s, %s, %s, %s::ruolo_mantra[], %s, %s);
+    """,
+    (
+        row.get("nome"),
+        row.get("squadra_att"),
+        row.get("detentore_cartellino"),
+        row.get("club"),
+        row.get("quot_att_mantra"),
+        row.get("tipo_contratto"),
+        ruoli,
+        row.get("costo"),
+        row.get("priorità")  
+    )
+)
 conn.commit()
 cur.close()
 conn.close()
